@@ -1,7 +1,20 @@
-import React from "react";
+import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect } from "react";
+import { db } from "../firebase";
 import "./Home.css";
 
-function Home() {
+const Home = () => {
+  useEffect(() => {
+    const getPosts = async () => {
+      const data = await getDocs(collection(db, "posts"));
+      console.log(data);
+      console.log(data.docs);
+      console.log(data.docs.map((doc) => ({ doc })));
+      console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getPosts();
+  });
+
   return (
     <div className="homepage">
       <div className="postContents">
@@ -19,6 +32,6 @@ function Home() {
       </div>
     </div>
   );
-}
+};
 
 export default Home;

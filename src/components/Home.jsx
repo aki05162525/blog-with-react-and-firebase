@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
 import "./Home.css";
@@ -18,6 +18,10 @@ const Home = () => {
     getPosts();
   });
 
+  const handleDlete = async (id) => {
+    await deleteDoc(doc(db, "posts", id));
+  };
+
   return (
     <div className="homepage">
       {postList.map((post) => {
@@ -30,7 +34,7 @@ const Home = () => {
             <div className="postTextContainer">{post.postText}</div>
             <div className="nameAndDeleteButton">
               <h3>@{post.author.username}</h3>
-              <button>削除</button>
+              <button onClick={() => handleDlete(post.id)}>削除</button>
             </div>
           </div>
         );
